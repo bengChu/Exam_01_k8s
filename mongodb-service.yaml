@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  type: ClusterIP # 👈 ใช้ ClusterIP เพราะเราจะเรียกใช้จากภายในคลัสเตอร์เท่านั้น
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: mongodb
