@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        # ⚠️ อัปเดตเป็นชื่อ Image ของคุณที่ Push ขึ้น Registry
+        image: bength/exam-01-client:2.0
+        ports:
+        - containerPort: 80
+        env:
+        # URL คงที่ที่ Client ใช้เรียก API (ชี้ไปที่ IP ของเซิร์ฟเวอร์จริง + Path)
+        - name: REACT_APP_API_URL
+          value: "http://192.168.0.18/exam01/api"

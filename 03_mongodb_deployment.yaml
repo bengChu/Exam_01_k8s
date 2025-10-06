@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+        env:
+          # 🔑 กำหนด Username/Password ของ Root User ใน DB 'admin'
+          # ตรวจสอบว่าค่าเหล่านี้ตรงกับค่าใน 05_server_deployment.yaml
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: "ihadmin"
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: "ihadmin" # ⚠️ เปลี่ยนค่านี้เป็นรหัสผ่านจริงของคุณ
+          
+          # Optional: กำหนดชื่อฐานข้อมูลเริ่มต้น
+          - name: MONGO_INITDB_DATABASE
+            value: exam01 
+        volumeMounts:
+        - name: mongodb-storage
+          mountPath: /data/db
+      volumes:
+      - name: mongodb-storage
+        persistentVolumeClaim:
+          claimName: mongodb-pvc

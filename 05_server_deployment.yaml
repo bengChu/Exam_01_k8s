@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  labels:
+    app: server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: server
+        # ⚠️ อัปเดต Image Tag เป็น 6.0 ที่คุณเพิ่ง Build
+        image: bength/exam-01-server:6.0 
+        ports:
+        - containerPort: 3001
+        env:
+          # 🔑 กำหนด URI การเชื่อมต่อ DB
+          # ต้องตรงกับ User/Pass ที่กำหนดใน 03_mongodb_deployment.yaml
+          # ใช้ 'mongodb-service' และ 'authSource=admin'
+          - name: MONGO_URI
+            value: "mongodb://ihadmin:ihadmin@mongodb-service:27017/exam01?authSource=admin" 
+          - name: JWT_SECRET
+            value: "bengbow@ba"
+          - name: JWT_EXPIRES_IN
+            value: "1h"

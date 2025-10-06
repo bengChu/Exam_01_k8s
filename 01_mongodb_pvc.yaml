@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pvc # ชื่อที่ MongoDB Deployment จะเรียกใช้
+spec:
+  # หากคุณไม่มี PV ที่สร้างไว้ล่วงหน้า K8s จะพยายามสร้างให้โดยอัตโนมัติ
+  storageClassName: "microk8s-hostpath"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi # พื้นที่เก็บข้อมูลที่ร้องขอ
