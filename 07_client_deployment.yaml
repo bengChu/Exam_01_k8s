@@ -15,7 +15,7 @@ spec:
       containers:
       - name: client
         # ⚠️ อัปเดตเป็นชื่อ Image ของคุณที่ Push ขึ้น Registry
-        image: bength/exam-01-client:2.0
+        image: bength/exam-01-client:6.1
         ports:
         - containerPort: 80
         env:
